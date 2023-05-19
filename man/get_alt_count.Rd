@@ -16,5 +16,7 @@ get_alt_count(alt_path, sample_id_rep, filtered_snps_gr, temp_folder)
 \item{temp_folder}{Temporary folder to save unwanted files}
 }
 \description{
-Title
+This function will generate the alternative base counts for each loci. The input is the custom file format (.zst file) from
+the Recount3. This file includes read counts for the 4 bases. Therefore, in this function, we will find the base that has read counts
+mapped to it.
 }
