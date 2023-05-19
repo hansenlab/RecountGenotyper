@@ -1,9 +1,9 @@
-Package: ReGenoCaller
+Package: RecountGenotyper
 Title: Genotype calling from Recount3 RNA-seq data.
 Version: 0.0.0.9000
 Authors@R: c(
     person("Afrooz", "Razi", , "arazi2@jhmi.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-4556-9383")),
-    person("Christopher", "Lo", "clo23@jh.edu", role = c("aut", "cre")))
+    person("Christopher", "Lo", "clo23@jh.edu", role = c("aut")))
 Imports: 
     data.table,
     dplyr,
@@ -11,8 +11,8 @@ Imports:
     rtracklayer
 Description: This package uses the refernce and alternative allele counts to predicts the genotypes for an individual sample.
     The genotype is predicted by default at preselected biallelic SNPs. 
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: MIT + file LICENSE
 Encoding: UTF-8
-URL: https://github.com/raziafrooz/ReGenoCaller
-BugReports: https://github.com/raziafrooz/ReGenoCaller/issues
+URL: https://github.com/raziafrooz/RecountGenotyper
+BugReports: https://github.com/raziafrooz/RecountGenotyper/issues
+RoxygenNote: 7.2.3
