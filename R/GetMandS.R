@@ -12,6 +12,8 @@
 #' @param temp_folder Path to temporary folder.
 #'
 #' @import GenomicRanges
+#' @import rtracklayer
+#' @import data.table
 #' @export
 GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder) {
   #Load in bigWig file to get `coverage_count` and `filtered_snps_gr`.
