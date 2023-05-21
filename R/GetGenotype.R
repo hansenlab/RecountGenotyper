@@ -1,11 +1,13 @@
 #' Title
 #'
-#' @param model_path
-#' @param model_lattice_path
-#' @param modelPrior
-#' @param M
-#' @param S
-function(model_path, M, S) {
+#'
+#' @param model_path s
+#' @param model_lattice_path s
+#' @param modelPrior s
+#' @param M s
+#' @param S s
+#' @export
+GetGenotype<-function(model_path, M, S) {
   lattice_max <- 8.5
   #Load in model information.
   if(all(is.na(modelPrior)) == T) {

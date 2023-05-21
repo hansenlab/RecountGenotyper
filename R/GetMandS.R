@@ -20,7 +20,7 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
 
   bigwig <- tryCatch(
     {
-      function(...) rtracklayer::import(bigWig_path, format = "bigwig")
+     rtracklayer::import(bigWig_path, format = "bigwig")
     },
     error=function(cond) {
       message(paste("Error loading bigwig file: ", bigWig_path))
@@ -37,7 +37,7 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
   if(all(is.na(bigwig))) {
     return(NA)
   }
-  overlap_loci <- function(...) GenomicRanges::findOverlaps(snps_gr, bigwig)
+  overlap_loci <- GenomicRanges::findOverlaps(snps_gr, bigwig)
   bigwig_count <- bigwig$score[subjectHits(overlap_loci)]
   filter_idx <- which(bigwig_count >= coverage_cutoff)
   bigwig_count <- bigwig_count[filter_idx]
@@ -53,7 +53,7 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
   cat("Loading in: ", alt_path, "\n")
   temp_altFile <- paste0(temp_folder, sample_id_rep, ".alt.temp.csv")
   system(paste0("zstdcat ", alt_path, " > ", temp_altFile))
-  alt <- function(...) data.table::fread(temp_altFile, select = c(1, 2, 4))
+  alt <- data.table::fread(temp_altFile, select = c(1, 2, 4))
   system(paste0("rm ", temp_altFile))
   if(nrow(alt) == 0) {
     return(NA)
@@ -66,12 +66,12 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
   #`alt_count` is 0-based, so we add 1 to positions.
   alt_count$pos <- alt_count$pos + 1
   #use chromosome names that are used in recount3.
-  chr_mapping <- function(...) data.table::fread(recount3_chr_mapping, header = FALSE)
+  chr_mapping <- data.table::fread(recount3_chr_mapping, header = FALSE)
   alt_count$chr <- chr_mapping$V2[match(alt_count$chr, chr_mapping$V1)]
-  alt_count_gr <- function(...) GenomicRanges::GRanges(seqnames = alt_count$chr,
+  alt_count_gr <- GenomicRanges::GRanges(seqnames = alt_count$chr,
                           ranges = IRanges(alt_count$pos,
                                            alt_count$pos))
-  ov <- function(...) GenomicRanges::findOverlaps(alt_count_gr, filtered_snps_gr)
+  ov <- GenomicRanges::findOverlaps(alt_count_gr, filtered_snps_gr)
   #Subset `alt_count_gr`, `alt_count` to the positions from SNPs, and compute
   #its own unique key.
   alt_count_gr <- alt_count_gr[queryHits(ov)]
