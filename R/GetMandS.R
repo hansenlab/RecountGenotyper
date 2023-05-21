@@ -112,5 +112,5 @@ return(data.table(chr = as.character(seqnames(filtered_snps_gr)),
                            alt=filtered_snps_gr$alt_seq,
                            M=M,
                            S=S,
-                           coverage=ref_count+alt_count))
+                           coverage=ref_count+final_alt_count))
 }
