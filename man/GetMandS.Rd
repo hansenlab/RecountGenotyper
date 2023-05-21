@@ -3,6 +3,16 @@
 \name{GetMandS}
 \alias{GetMandS}
 \title{Get M and S from raw reads}
+\usage{
+GetMandS(
+  snps_path,
+  bigWig_path,
+  coverage_cutoff = 4,
+  alt_path,
+  sample_id_rep,
+  temp_folder
+)
+}
 \arguments{
 \item{snps_path}{Path to biallelic SNPs to be genotyped.}
 
