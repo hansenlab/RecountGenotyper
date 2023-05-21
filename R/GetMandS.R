@@ -105,10 +105,12 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
 
 
 
-  return(list(coverage_count = bigwig_count,
-              ref_count,
-              alt_count= final_alt_count,
-              M,
-              S,
-              filtered_snps_gr = filtered_snps_gr))
+return(data.table(chr = as.character(seqnames(filtered_snps_gr)),
+                           start=start(filtered_snps_gr),
+                           AF= round(filtered_snps_gr$allele_freq),
+                           ref=filtered_snps_gr$ref_seq,
+                           alt=filtered_snps_gr$alt_seq,
+                           M=M,
+                           S=S,
+                           coverage=ref_count+alt_count))
 }
