@@ -1,4 +1,5 @@
-#' Title
+#' Get M and S from raw reads
+#' @name GetMandS
 #' @description This function will generate the reference and alternative base counts for each loci. The alternative base input is the custom file format (.zst file) from
 #' the Recount3. This file includes read counts for the 4 bases. Therefore, in this function, we will find the base that has read counts
 #' mapped to it. The default coverage cutoff is set to 4. After the ref and alt counts are obtained, the M and S values will be calculated and returened.
@@ -10,10 +11,7 @@
 #' @param temp_folder Path to temporary folder.
 #'
 #' @import GenomicRanges
-#' @return
 #' @export
-#'
-#' @examples
 function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder) {
   #Load in bigWig file to get `coverage_count` and `filtered_snps_gr`.
   snps_gr <- readRDS(snps_path)
