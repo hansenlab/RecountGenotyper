@@ -5,10 +5,10 @@ Authors@R: c(
     person("Afrooz", "Razi", , "arazi2@jhmi.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-4556-9383")),
     person("Christopher", "Lo", "clo23@jh.edu", role = c("aut")))
 Imports: 
-    data.table,
-    dplyr,
-    GenomicRanges,
-    rtracklayer
+    data.table(>=1.14.8),
+    dplyr(>=1.1.1),
+    GenomicRanges(>=1.50.2),
+    rtracklayer(>=1.58.0)
 Description: This package uses the refernce and alternative allele counts to predicts the genotypes for an individual sample.
     The genotype is predicted by default at preselected biallelic SNPs. 
 License: MIT + file LICENSE
