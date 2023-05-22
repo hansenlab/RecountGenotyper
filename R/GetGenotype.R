@@ -5,7 +5,6 @@
 #' @param S S value calculated from GetMandS fucntion
 #' @param model_MS Genotyping model
 #' @param modelLattice A lookup table generated form the genotyping model for faster performance
-#' @import caret
 #' @export
 GetGenotype<- function(model_MS, modelLattice, prior=c(0.93752717, 0.03951271, 0.02239503) , M, S) {
   lattice_max <- 8.5

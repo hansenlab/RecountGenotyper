@@ -13,7 +13,6 @@
 #'
 #' @import GenomicRanges
 #' @import rtracklayer
-#' @import S4Vectors
 #' @import data.table
 #' @export
 GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder) {
