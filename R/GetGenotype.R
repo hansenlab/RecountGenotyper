@@ -2,7 +2,7 @@
 #'
 #'
 #' @param M M values calculated from GetMandS function
-#' @param S S value calculated from GetMandS fucntion
+#' @param S S value calculated from GetMandS funCtion
 #' @param model_MS Genotyping model
 #' @param modelLattice A lookup table generated form the genotyping model for faster performance
 #' @export
@@ -23,18 +23,18 @@ GetGenotype<- function(model_MS, modelLattice, prior=c(0.93752717, 0.03951271, 0
       mu_M[withinLattice_idx] <- model_MS_lattice[J(S[withinLattice_idx])]$mu_M_prediction_1
       sd_M[withinLattice_idx] <- model_MS_lattice[J(S[withinLattice_idx])]$sd_M_prediction_1
       #then, for SNPs out of the lattice, we use the model predictions.
-      mu_M[outsideLattice_idx] <- caret::predict(model_MS[[1]][[1]], data.frame(mu_S = unlist(S[outsideLattice_idx])))
-      sd_M[outsideLattice_idx] <- caret::predict(model_MS[[1]][[2]], data.frame(mu_S = unlist(S[outsideLattice_idx])))
+      mu_M[outsideLattice_idx] <- predict(model_MS[[1]][[1]], data.frame(mu_S = unlist(S[outsideLattice_idx])))
+      sd_M[outsideLattice_idx] <- predict(model_MS[[1]][[2]], data.frame(mu_S = unlist(S[outsideLattice_idx])))
     } else if(k == 2) {
       mu_M[withinLattice_idx] <- model_MS_lattice[J(S[withinLattice_idx])]$mu_M_prediction_2
       sd_M[withinLattice_idx] <- model_MS_lattice[J(S[withinLattice_idx])]$sd_M_prediction_2
-      mu_M[outsideLattice_idx] <- caret::predict(model_MS[[2]][[1]], data.frame(mu_S = unlist(S[outsideLattice_idx])))
-      sd_M[outsideLattice_idx] <- caret::predict(model_MS[[2]][[2]], data.frame(mu_S = unlist(S[outsideLattice_idx])))
+      mu_M[outsideLattice_idx] <- predict(model_MS[[2]][[1]], data.frame(mu_S = unlist(S[outsideLattice_idx])))
+      sd_M[outsideLattice_idx] <- predict(model_MS[[2]][[2]], data.frame(mu_S = unlist(S[outsideLattice_idx])))
     } else if(k == 3) {
       mu_M[withinLattice_idx] <- model_MS_lattice[J(S[withinLattice_idx])]$mu_M_prediction_3
       sd_M[withinLattice_idx] <- model_MS_lattice[J(S[withinLattice_idx])]$sd_M_prediction_3
-      mu_M[outsideLattice_idx] <- caret::predict(model_MS[[3]][[1]], data.frame(mu_S = unlist(S[outsideLattice_idx])))
-      sd_M[outsideLattice_idx] <- caret::predict(model_MS[[3]][[2]], data.frame(mu_S = unlist(S[outsideLattice_idx])))
+      mu_M[outsideLattice_idx] <- predict(model_MS[[3]][[1]], data.frame(mu_S = unlist(S[outsideLattice_idx])))
+      sd_M[outsideLattice_idx] <- predict(model_MS[[3]][[2]], data.frame(mu_S = unlist(S[outsideLattice_idx])))
     }
     sd_M[sd_M <= 0] <- 0 #if we predict (extrapolate) any variance to be <= 0, set it to 0.
     return(prior[k] * dnorm(x = M, mean = mu_M, sd = sd_M, log = FALSE))

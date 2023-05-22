@@ -107,7 +107,7 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
 
 return(data.table(chr = as.character(seqnames(filtered_snps_gr)),
                   start=start(filtered_snps_gr),
-                  AF= round(filtered_snps_gr$allele_freq,4),
+                  AF= filtered_snps_gr$allele_freq,
                   ref=filtered_snps_gr$ref_seq,
                   alt=filtered_snps_gr$alt_seq,
                   M=M,
