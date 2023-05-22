@@ -4,18 +4,22 @@
 \alias{GetGenotype}
 \title{Title}
 \usage{
-GetGenotype(model_path, M, S)
+GetGenotype(
+  model_MS,
+  modelLattice,
+  prior = c(0.93752717, 0.03951271, 0.02239503),
+  M,
+  S
+)
 }
 \arguments{
-\item{model_path}{s}
+\item{model_MS}{Genotyping model}
 
-\item{M}{s}
+\item{modelLattice}{A lookup table generated form the genotyping model for faster performance}
 
-\item{S}{s}
+\item{M}{M values calculated from GetMandS function}
 
-\item{model_lattice_path}{s}
-
-\item{modelPrior}{s}
+\item{S}{S value calculated from GetMandS fucntion}
 }
 \description{
 Title
