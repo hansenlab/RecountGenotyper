@@ -3,6 +3,7 @@
 export(GetGenotype)
 export(GetMandS)
 import(GenomicRanges)
+import(S4Vectors)
 import(caret)
 import(data.table)
 import(rtracklayer)
