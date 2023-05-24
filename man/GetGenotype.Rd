@@ -5,7 +5,7 @@
 \title{Title}
 \usage{
 GetGenotype(
-  model_MS,
+  model,
   modelLattice,
   prior = c(0.93752717, 0.03951271, 0.02239503),
   M,
@@ -13,13 +13,13 @@ GetGenotype(
 )
 }
 \arguments{
-\item{model_MS}{Genotyping model}
+\item{model}{Genotyping model}
 
 \item{modelLattice}{A lookup table generated form the genotyping model for faster performance}
 
 \item{M}{M values calculated from GetMandS function}
 
-\item{S}{S value calculated from GetMandS fucntion}
+\item{S}{S value calculated from GetMandS funCtion}
 }
 \description{
 Title
