@@ -68,8 +68,7 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
   #`alt_count` is 0-based, so we add 1 to positions.
   alt_count$pos <- alt_count$pos + 1
   #use chromosome names that are used in recount3.
-  chr_mapping <- data.table::fread(recount3_chr_mapping, header = FALSE)
-  alt_count$chr <- chr_mapping$V2[match(alt_count$chr, chr_mapping$V1)]
+  alt_count$chr <- recount3_chr_mapping$V2[match(alt_count$chr, recount3_chr_mapping$V1)]
   alt_count_gr <- GenomicRanges::GRanges(seqnames = alt_count$chr,
                           ranges = IRanges(alt_count$pos,
                                            alt_count$pos))
