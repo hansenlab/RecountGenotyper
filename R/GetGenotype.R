@@ -4,9 +4,8 @@
 #' @param M M values calculated from GetMandS function
 #' @param S S value calculated from GetMandS funCtion
 #' @param model Genotyping model
-#' @param modelLattice A lookup table generated form the genotyping model for faster performance
 #' @export
-GetGenotype<- function(model, modelLattice, prior=c(0.93752717, 0.03951271, 0.02239503), M, S) {
+GetGenotype<- function(model, prior=c(0.93752717, 0.03951271, 0.02239503), M, S) {
   lattice_max <- 8.5
   #Figure out which values of predictor S can be used for lattice lookup table.
   withinLattice_idx <- which(S <= lattice_max)

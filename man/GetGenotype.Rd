@@ -4,18 +4,10 @@
 \alias{GetGenotype}
 \title{Title}
 \usage{
-GetGenotype(
-  model,
-  modelLattice,
-  prior = c(0.93752717, 0.03951271, 0.02239503),
-  M,
-  S
-)
+GetGenotype(model, prior = c(0.93752717, 0.03951271, 0.02239503), M, S)
 }
 \arguments{
 \item{model}{Genotyping model}
-
-\item{modelLattice}{A lookup table generated form the genotyping model for faster performance}
 
 \item{M}{M values calculated from GetMandS function}
 

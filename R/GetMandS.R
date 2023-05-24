@@ -11,6 +11,8 @@
 #' @param sample_id_rep Single sample ID to be genotyped.
 #' @param temp_folder Path to temporary folder.
 #'
+#' @importFrom S4Vectors subjectHits
+#' @importFrom S4Vectors queryHits
 #' @import GenomicRanges
 #' @import rtracklayer
 #' @import data.table
