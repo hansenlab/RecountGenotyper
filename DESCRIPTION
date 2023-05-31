@@ -8,7 +8,11 @@ Imports:
     data.table,
     dplyr,
     GenomicRanges,
-    rtracklayer
+    rtracklayer,
+    rms,
+    tidyverse,
+    IRanges,
+    S4Vectors
 Description: This package uses the refernce and alternative allele counts to predicts the genotypes for an individual sample.
     The genotype is predicted by default at preselected biallelic SNPs. 
 License: MIT + file LICENSE
@@ -21,3 +25,4 @@ Suggests:
 Config/testthat/edition: 3
 Depends: 
     R (>= 2.10)
+LazyData: true
