@@ -9,7 +9,6 @@ Imports:
     dplyr,
     GenomicRanges,
     rtracklayer,
-    rms,
     tidyverse,
     IRanges,
     S4Vectors

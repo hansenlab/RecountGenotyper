@@ -20,7 +20,6 @@
 #' @import data.table
 #' @import IRanges
 #' @import tidyverse
-#' @import rms
 #'
 #' @export
 GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder,accuracyModel) {

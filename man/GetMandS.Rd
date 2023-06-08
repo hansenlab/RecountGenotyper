@@ -5,7 +5,7 @@
 \title{Get M and S from raw reads}
 \usage{
 GetMandS(
-  snps_path = NULL,
+  snps_path,
   bigWig_path,
   coverage_cutoff = 4,
   alt_path,
