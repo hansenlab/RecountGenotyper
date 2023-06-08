@@ -110,8 +110,8 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
   S <- log2(sqrt((ref_count + 1) * (final_alt_count + 1)))
 
 
-  low_major_AF_quantile <- accuracyModel$low_majorAF$Design$parms$majorAF_bin
-
+  #low_major_AF_quantile <- accuracyModel$low_majorAF$Design$parms$majorAF_bin
+  low_major_AF_quantile <-c(0.5,0.632,0.749,0.839,0.908,0.95)
   ####Get the prediction accuracy based on coverage and MAF
 
   #convert alternative allele fraction to major allele fraction
@@ -119,15 +119,14 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
                         filtered_snps_gr$allele_freq > .5  ~ filtered_snps_gr$allele_freq)
   eval_data <- data.frame(coverage = bigwig_count, major_AF = major_AF)
 
-
   eval_low_majorAF <- eval_data %>% filter(major_AF < .95)
   eval_low_majorAF$majorAF_bin <- cut(eval_low_majorAF$major_AF, low_major_AF_quantile, include.lowest=TRUE)
-  eval_low_majorAF$predicted.values.logit <- predict(accuracyModel, newdata = as.data.frame(eval_low_majorAF))
+  eval_low_majorAF$predicted.values.logit <- predict(accuracyModel$low_majorAF, newdata = as.data.frame(eval_low_majorAF))
   eval_low_majorAF$predicted.values.prob <- 1/(1+exp(-eval_low_majorAF$predicted.values.logit))
 
   eval_high_majorAF <- eval_data %>% filter(major_AF >= .95)
   eval_high_majorAF$majorAF_bin <- "[0.95, 1]"
-  eval_high_majorAF$predicted.values.logit <- predict(high_majorAF_accuracy_model, newdata = as.data.frame(eval_high_majorAF))
+  eval_high_majorAF$predicted.values.logit <- predict(accuracyModel$high_majorAF, newdata = as.data.frame(eval_high_majorAF))
   eval_high_majorAF$predicted.values.prob <- 1/(1+exp(-eval_high_majorAF$predicted.values.logit))
 
   eval_data <- rbind(eval_low_majorAF, eval_high_majorAF)
