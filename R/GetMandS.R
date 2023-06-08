@@ -20,6 +20,7 @@
 #' @import data.table
 #' @import IRanges
 #' @import tidyverse
+#' @import rms
 #'
 #' @export
 GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder,accuracyModel) {
@@ -119,17 +120,20 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
                         filtered_snps_gr$allele_freq > .5  ~ filtered_snps_gr$allele_freq)
   eval_data <- data.frame(coverage = bigwig_count, major_AF = major_AF)
 
+  id<-which(eval_data$major_AF < .95)
   eval_low_majorAF <- eval_data %>% filter(major_AF < .95)
   eval_low_majorAF$majorAF_bin <- cut(eval_low_majorAF$major_AF, low_major_AF_quantile, include.lowest=TRUE)
   eval_low_majorAF$predicted.values.logit <- predict(accuracyModel$low_majorAF, newdata = as.data.frame(eval_low_majorAF))
   eval_low_majorAF$predicted.values.prob <- 1/(1+exp(-eval_low_majorAF$predicted.values.logit))
+  eval_data$accuracy[id]<- eval_low_majorAF$predicted.values.prob
 
+  id<-which(eval_data$major_AF >= .95)
   eval_high_majorAF <- eval_data %>% filter(major_AF >= .95)
   eval_high_majorAF$majorAF_bin <- "[0.95, 1]"
   eval_high_majorAF$predicted.values.logit <- predict(accuracyModel$high_majorAF, newdata = as.data.frame(eval_high_majorAF))
   eval_high_majorAF$predicted.values.prob <- 1/(1+exp(-eval_high_majorAF$predicted.values.logit))
+  eval_data$accuracy[id]<- eval_high_majorAF$predicted.values.prob
 
-  eval_data <- rbind(eval_low_majorAF, eval_high_majorAF)
 
 
 return(data.table(chr = as.character(seqnames(filtered_snps_gr)),
@@ -140,5 +144,5 @@ return(data.table(chr = as.character(seqnames(filtered_snps_gr)),
                   M=M,
                   S=S,
                   coverage=ref_count+final_alt_count,
-                  predicted_geno_acc=eval_data$predicted.values.prob))
+                  predicted_geno_acc=eval_data$accuracy))
 }
