@@ -123,7 +123,7 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
 
   eval_low_majorAF <- eval_data %>% filter(major_AF < .95)
   eval_low_majorAF$majorAF_bin <- cut(eval_low_majorAF$major_AF, low_major_AF_quantile, include.lowest=TRUE)
-  eval_low_majorAF$predicted.values.logit <- predict(low_majorAF_accuracy_model, newdata = as.data.frame(eval_low_majorAF))
+  eval_low_majorAF$predicted.values.logit <- predict(accuracyModel, newdata = as.data.frame(eval_low_majorAF))
   eval_low_majorAF$predicted.values.prob <- 1/(1+exp(-eval_low_majorAF$predicted.values.logit))
 
   eval_high_majorAF <- eval_data %>% filter(major_AF >= .95)
