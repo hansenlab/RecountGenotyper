@@ -10,7 +10,7 @@
 #' @param alt_path Path to alternative base read counts. This is outputed from the Recount3 pipeline as a .zst file.
 #' @param sample_id_rep Single sample ID to be genotyped.
 #' @param temp_folder Path to temporary folder.
-#' @param accuracyModel loaded accuracy model
+#' @param accuracyModelLattice loaded accuracy lattice
 #'
 #' @importFrom S4Vectors subjectHits
 #' @importFrom S4Vectors queryHits
@@ -23,7 +23,7 @@
 #' @import rms
 #'
 #' @export
-GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder,accuracyModel) {
+GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder,accuracyModelLattice) {
   #Load in bigWig file to get `coverage_count` and `filtered_snps_gr`.
   snps_gr <- readRDS(snps_path)
   cat("Loading in: ", bigWig_path, "\n")
@@ -111,29 +111,43 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
   S <- log2(sqrt((ref_count + 1) * (final_alt_count + 1)))
 
 
-  #low_major_AF_quantile <- accuracyModel$low_majorAF$Design$parms$majorAF_bin
-  low_major_AF_quantile <-c(0.5,0.632,0.749,0.839,0.908,0.95)
-  ####Get the prediction accuracy based on coverage and MAF
 
-  #convert alternative allele fraction to major allele fraction
-  major_AF <- case_when(filtered_snps_gr$allele_freq <= .5  ~ 1 - filtered_snps_gr$allele_freq,
-                        filtered_snps_gr$allele_freq > .5  ~ filtered_snps_gr$allele_freq)
+  ############
+  #accuracyModelLattice <- readRDS(opt$accuracyModelLattice)
+  expit <- function(x) {
+    return(1/(1+exp(-x)))
+  }
+
+  get_low_major_AF_quantile <- function(accuracyModelLattice) {
+    major_AF_info <- unique(accuracyModelLattice$majorAF_bin)
+    major_AF_info <- lapply(str_split(major_AF_info, ","), function(x) x[1]) #string manipulations to get it into a numeric vector
+    major_AF_info <-  as.numeric(substr(major_AF_info, 2, 999))
+    return(major_AF_info)
+  }
+
+
   eval_data <- data.frame(coverage = bigwig_count, major_AF = major_AF)
+  eval_data$major_AF <- case_when(eval_data$AF <= .5  ~ 1 - eval_data$AF,
+                                  eval_data$AF > .5  ~ eval_data$AF)
 
+  #prediction for low major AF
   id<-which(eval_data$major_AF < .95)
   eval_low_majorAF <- eval_data %>% filter(major_AF < .95)
-  eval_low_majorAF$majorAF_bin <- cut(eval_low_majorAF$major_AF, low_major_AF_quantile, include.lowest=TRUE)
-  eval_low_majorAF$predicted.values.logit <- predict(accuracyModel$low_majorAF, newdata = as.data.frame(eval_low_majorAF))
-  eval_low_majorAF$predicted.values.prob <- 1/(1+exp(-eval_low_majorAF$predicted.values.logit))
-  eval_data$accuracy[id]<- eval_low_majorAF$predicted.values.prob
+  eval_low_majorAF$majorAF_bin <- cut(eval_low_majorAF$major_AF,
+                                      breaks = get_low_major_AF_quantile(accuracyModelLattice),
+                                      include.lowest=TRUE)
+  eval_low_majorAF <- left_join(eval_low_majorAF, accuracyModelLattice, by = c("coverage", "majorAF_bin"))
+  eval_data$accuracy[id] <- eval_low_majorAF %>% select(c(names(eval_data), "predicted_accuracy"))
 
-  id<-which(eval_data$major_AF >= .95)
+  #prediction for high major AF
+  id<-which(eval_data$major_AF < .95)
   eval_high_majorAF <- eval_data %>% filter(major_AF >= .95)
   eval_high_majorAF$majorAF_bin <- "[0.95, 1]"
-  eval_high_majorAF$predicted.values.logit <- predict(accuracyModel$high_majorAF, newdata = as.data.frame(eval_high_majorAF))
-  eval_high_majorAF$predicted.values.prob <- 1/(1+exp(-eval_high_majorAF$predicted.values.logit))
-  eval_data$accuracy[id]<- eval_high_majorAF$predicted.values.prob
+  eval_high_majorAF <- left_join(eval_high_majorAF, accuracyModelLattice, by = c("coverage", "majorAF_bin"))
+  eval_data$accuracy[id] <- eval_high_majorAF %>% select(c(names(eval_data), "predicted_accuracy"))
 
+  #put the two together
+  eval_data$predicted_accuracy[is.na(eval_data$predicted_accuracy)] <- 1 #for coverage > 100 outside of lattice, give it perfect prediction
 
 
 return(data.table(chr = as.character(seqnames(filtered_snps_gr)),
@@ -144,5 +158,8 @@ return(data.table(chr = as.character(seqnames(filtered_snps_gr)),
                   M=M,
                   S=S,
                   coverage=ref_count+final_alt_count,
-                  predicted_geno_acc=eval_data$accuracy))
+                  predicted_geno_acc=eval_data$predicted_accuracy))
 }
+usethis::use_data()
+
+
