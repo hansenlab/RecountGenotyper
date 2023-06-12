@@ -127,7 +127,7 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
 
 
   eval_data <- data.frame(coverage = bigwig_count, major_AF = major_AF)
-  eval_data$major_AF <- case_when(eval_data$AF <= .5  ~ 1 - eval_data$AF,
+  eval_data$major_AF <- tidyverse::case_when(eval_data$AF <= .5  ~ 1 - eval_data$AF,
                                   eval_data$AF > .5  ~ eval_data$AF)
 
   #prediction for low major AF
