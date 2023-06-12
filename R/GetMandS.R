@@ -10,7 +10,6 @@
 #' @param alt_path Path to alternative base read counts. This is outputed from the Recount3 pipeline as a .zst file.
 #' @param sample_id_rep Single sample ID to be genotyped.
 #' @param temp_folder Path to temporary folder.
-#' @param accuracyModelLattice loaded accuracy lattice
 #'
 #' @importFrom S4Vectors subjectHits
 #' @importFrom S4Vectors queryHits
@@ -23,7 +22,7 @@
 #' @import rms
 #'
 #' @export
-GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder,accuracyModelLattice) {
+GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder) {
   #Load in bigWig file to get `coverage_count` and `filtered_snps_gr`.
   snps_gr <- readRDS(snps_path)
   cat("Loading in: ", bigWig_path, "\n")
@@ -127,7 +126,7 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
 
 
   eval_data <- data.frame(coverage = bigwig_count, major_AF = major_AF)
-  eval_data$major_AF <- tidyverse::case_when(eval_data$AF <= .5  ~ 1 - eval_data$AF,
+  eval_data$major_AF <- case_when(eval_data$AF <= .5  ~ 1 - eval_data$AF,
                                   eval_data$AF > .5  ~ eval_data$AF)
 
   #prediction for low major AF
@@ -160,6 +159,3 @@ return(data.table(chr = as.character(seqnames(filtered_snps_gr)),
                   coverage=ref_count+final_alt_count,
                   predicted_geno_acc=eval_data$predicted_accuracy))
 }
-usethis::use_data()
-
-
