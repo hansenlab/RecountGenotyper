@@ -14,11 +14,13 @@
 #' @importFrom S4Vectors subjectHits
 #' @importFrom S4Vectors queryHits
 #' @importFrom IRanges IRanges
+#' @importFrom dplyr case_when
+#'
 #' @import GenomicRanges
 #' @import rtracklayer
 #' @import data.table
 #' @import IRanges
-#' @import tidyverse
+#' @import dplyr
 #' @import rms
 #'
 #' @export

@@ -10,8 +10,7 @@ GetMandS(
   coverage_cutoff = 4,
   alt_path,
   sample_id_rep,
-  temp_folder,
-  accuracyModelLattice
+  temp_folder
 )
 }
 \arguments{
@@ -26,8 +25,6 @@ GetMandS(
 \item{sample_id_rep}{Single sample ID to be genotyped.}
 
 \item{temp_folder}{Path to temporary folder.}
-
-\item{accuracyModelLattice}{loaded accuracy lattice}
 }
 \description{
 This function will generate the reference and alternative base counts for each loci. The alternative base input is the custom file format (.zst file) from
