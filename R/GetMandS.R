@@ -128,7 +128,7 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
   }
 
 
-  eval_data <- data.frame(coverage = bigwig_count)
+  eval_data <- data.frame(coverage = bigwig_count, filtered_snps_gr$allele_freq)
   eval_data$major_AF <- case_when(eval_data$AF <= .5  ~ 1 - eval_data$AF,
                                   eval_data$AF > .5  ~ eval_data$AF)
 
