@@ -1,8 +1,13 @@
-#' Title
+#' Genotype prediction
+#'
+#' @name GetGenotype
+#' @description This function will use the M and S values generated from the GetMandS function to predict the genotype.
+#'
+#'
 #'
 #'
 #' @param M M values calculated from GetMandS function
-#' @param S S value calculated from GetMandS funCtion
+#' @param S S value calculated from GetMandS function
 #' @param model Genotyping model
 #' @export
 GetGenotype<- function(model, prior=c(0.93752717, 0.03951271, 0.02239503), M, S) {
