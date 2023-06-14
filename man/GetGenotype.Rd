@@ -2,7 +2,7 @@
 % Please edit documentation in R/GetGenotype.R
 \name{GetGenotype}
 \alias{GetGenotype}
-\title{Title}
+\title{Genotype prediction}
 \usage{
 GetGenotype(model, prior = c(0.93752717, 0.03951271, 0.02239503), M, S)
 }
@@ -11,8 +11,8 @@ GetGenotype(model, prior = c(0.93752717, 0.03951271, 0.02239503), M, S)
 
 \item{M}{M values calculated from GetMandS function}
 
-\item{S}{S value calculated from GetMandS funCtion}
+\item{S}{S value calculated from GetMandS function}
 }
 \description{
-Title
+This function will use the M and S values generated from the GetMandS function to predict the genotype.
 }

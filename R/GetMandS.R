@@ -24,7 +24,6 @@
 #' @import dplyr
 #' @import rms
 #' @import tidyverse
-#' @import stringr
 #'
 #' @export
 GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder) {

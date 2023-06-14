@@ -2,7 +2,7 @@
 % Please edit documentation in R/GetMandS.R
 \name{GetMandS}
 \alias{GetMandS}
-\title{Get M and S from raw reads}
+\title{Get M and S from raw reads as well as the predicted accuracy for that SNP}
 \usage{
 GetMandS(
   snps_path,
