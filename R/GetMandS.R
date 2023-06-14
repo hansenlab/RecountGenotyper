@@ -117,16 +117,8 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
 
 
   ############
-  #accuracyModelLattice <- readRDS(opt$accuracyModelLattice)
   expit <- function(x) {
     return(1/(1+exp(-x)))
-  }
-
-  get_low_major_AF_quantile <- function(accuracyModelLattice) {
-    major_AF_info <- unique(accuracyModelLattice$majorAF_bin)
-    major_AF_info <- lapply(stringr::str_split(major_AF_info, ","), function(x) x[1]) #string manipulations to get it into a numeric vector
-    major_AF_info <-  as.numeric(substr(major_AF_info, 2, 999))
-    return(major_AF_info)
   }
 
 
@@ -138,7 +130,7 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
   id<-which(eval_data$major_AF < .95)
   eval_low_majorAF <- eval_data %>% filter(major_AF < .95)
   eval_low_majorAF$majorAF_bin <- cut(eval_low_majorAF$major_AF,
-                                      breaks = get_low_major_AF_quantile(accuracyModelLattice),
+                                      breaks = c(0.500,0.632,0.908,0.839,0.749,0.950),
                                       include.lowest=TRUE)
   eval_low_majorAF <- left_join(eval_low_majorAF, accuracyModelLattice, by = c("coverage", "majorAF_bin"))
   eval_data$accuracy[id] <- eval_low_majorAF %>% select(c(names(eval_data), "predicted_accuracy"))
