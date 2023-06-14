@@ -132,17 +132,16 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
                                       breaks = c(0.500,0.632,0.908,0.839,0.749,0.950),
                                       include.lowest=TRUE)
   eval_low_majorAF <- left_join(eval_low_majorAF, accuracyModelLattice, by = c("coverage", "majorAF_bin"))
-  eval_data$accuracy[id] <- eval_low_majorAF %>% select(c(names(eval_data), "predicted_accuracy"))
+  eval_data$accuracy[id] <- unlist(eval_low_majorAF$predicted_accuracy)
 
   #prediction for high major AF
-  id<-which(eval_data$major_AF < .95)
+  id<-which(eval_data$major_AF >= .95)
   eval_high_majorAF <- eval_data %>% filter(major_AF >= .95)
   eval_high_majorAF$majorAF_bin <- "[0.95, 1]"
   eval_high_majorAF <- left_join(eval_high_majorAF, accuracyModelLattice, by = c("coverage", "majorAF_bin"))
-  eval_data$accuracy[id] <- eval_high_majorAF %>% select(c(names(eval_data), "predicted_accuracy"))
-
+  eval_data$accuracy[id] <- unlist(eval_high_majorAF$predicted_accuracy)
   #put the two together
-  eval_data$predicted_accuracy[is.na(eval_data$predicted_accuracy)] <- 1 #for coverage > 100 outside of lattice, give it perfect prediction
+  eval_data$accuracy[is.na(eval_data$accuracy)] <- 1 #for coverage > 100 outside of lattice, give it perfect prediction
 
 
 return(data.table(chr = as.character(seqnames(filtered_snps_gr)),
