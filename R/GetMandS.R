@@ -24,7 +24,7 @@
 #' @import dplyr
 #' @import rms
 #' @import tidyverse
-#'
+#' @import stringr
 #'
 #' @export
 GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder) {
@@ -124,7 +124,7 @@ GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id
 
   get_low_major_AF_quantile <- function(accuracyModelLattice) {
     major_AF_info <- unique(accuracyModelLattice$majorAF_bin)
-    major_AF_info <- lapply(strsplit(major_AF_info, ","), function(x) x[1]) #string manipulations to get it into a numeric vector
+    major_AF_info <- lapply(stringr::str_split(major_AF_info, ","), function(x) x[1]) #string manipulations to get it into a numeric vector
     major_AF_info <-  as.numeric(substr(major_AF_info, 2, 999))
     return(major_AF_info)
   }
