@@ -152,5 +152,5 @@ return(data.table(chr = as.character(seqnames(filtered_snps_gr)),
                   M=M,
                   S=S,
                   coverage=ref_count+final_alt_count,
-                  predicted_geno_acc=eval_data$predicted_accuracy))
+                  predicted_geno_acc=eval_data$accuracy))
 }
