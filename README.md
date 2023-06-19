@@ -8,7 +8,7 @@
 
 The goal of RecountGenotyper is to predict the genotype information from
 the RNA-seq data in Recount3. The available data in Recount3 is in form
-of total bigwig files (.bw) and alternative files (.zst). 
+of total bigwig files (.bw) and alternative files (.zst).
 
 ## Installation
 
@@ -42,8 +42,7 @@ This package has two functions:
 - This function will take the prediciton model, M, and S values. M and S
   values are provided as columns in GetMandS() funciton.
 - This function will output an array of the predicted genotypes. The
-  order will be the same as GetMandS() funciton. model,
-  prior=c(0.93752717, 0.03951271, 0.02239503), M, S
+  order will be the same as GetMandS() funciton.
 
 ``` r
 #test$predicted_genotype<-GetGenotype(model, test$M, test$S)
