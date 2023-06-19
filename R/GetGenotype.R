@@ -1,4 +1,4 @@
-#' Genotype prediction
+#' Predict the sample genotype using M and S values
 #'
 #' @name GetGenotype
 #' @description This function will use the M and S values generated from the GetMandS function to predict the genotype.
@@ -9,6 +9,8 @@
 #' @param M M values calculated from GetMandS function
 #' @param S S value calculated from GetMandS function
 #' @param model Genotyping model
+#' @return array of the predicted genotype. The SNP order is the same as output from GetMandS function.
+#'
 #' @export
 GetGenotype<- function(model, prior=c(0.93752717, 0.03951271, 0.02239503), M, S) {
   lattice_max <- 8.5
