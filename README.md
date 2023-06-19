@@ -8,7 +8,7 @@
 
 The goal of RecountGenotyper is to predict the genotype information from
 the RNA-seq data in Recount3. The available data in Recount3 is in form
-of total bigwig files (.bw) and alternative files (.zst).
+of total bigwig files (.bw) and alternative files (.zst). 
 
 ## Installation
 

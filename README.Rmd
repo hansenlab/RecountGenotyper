@@ -40,7 +40,7 @@ This package has two functions:
 
 
 ```{r}
-test<-GetMandS(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder)
+#test<-GetMandS(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder)
 ```
 
 2) GetGenotype()
@@ -49,6 +49,6 @@ test<-GetMandS(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep
 * This function will output an array of the predicted genotypes. The order will be the same as GetMandS() funciton.
 model, prior=c(0.93752717, 0.03951271, 0.02239503), M, S
 ```{r}
-test$predicted_genotype<-GetGenotype(model, test$M, test$S)
+#test$predicted_genotype<-GetGenotype(model, test$M, test$S)
 ```
 
