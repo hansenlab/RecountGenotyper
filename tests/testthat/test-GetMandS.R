@@ -1,8 +1,8 @@
 
 
 base_path<-system.file("extdata", package="RecountGenotyper")
-alt=paste0(base_path,"test.csv.zst")
-bw=paste0(base_path,"test.bw")
+alt=paste0(base_path,"/test.csv.zst")
+bw=paste0(base_path,"/test.bw")
 
 
 test_that("M and S can be calculated", {

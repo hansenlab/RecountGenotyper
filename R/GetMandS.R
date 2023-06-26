@@ -24,6 +24,16 @@
 #' @import dplyr
 #' @import rms
 #' @import tidyverse
+#' @examples
+#'
+#' base_path<-system.file("extdata", package="RecountGenotyper")
+#' alt_path=paste0(base_path,"/test.csv.zst")
+#' bigWig_path=paste0(base_path,"/test.bw")
+#'
+#' sample_id_rep="test"
+#' temp_folder="~"
+#'
+#' test_geno<-GetMandS(snps_path, bigWig_path, alt_path, sample_id_rep, temp_folder)
 #'
 #' @export
 GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder) {
