@@ -5,7 +5,7 @@
 #' the Recount3. This file includes read counts for the 4 bases. Therefore, in this function, we will find the base that has read counts
 #' mapped to it. The default coverage cutoff is set to 4. After the ref and alt counts are obtained, the M and S values will be calculated and returened.
 #'
-#' @param snps_path Path to biallelic SNPs to be genotyped.
+#' @param snps The biallelic SNPs to be genotyped. This file should be a grange object containing seqnames,ranges,strand,ref_seq,alt_seq,allele_freq
 #' @param bigWig_path Path to the bigWig file containing the total read counts for a single sample.
 #' @param coverage_cutoff The minimum amount of read count mapped to a loci for that SNP to be included in the genotype calling. The default is 4 which was used in our model training and testing.
 #' @param alt_path Path to alternative base read counts. This is outputed from the Recount3 pipeline as a .zst file.
@@ -36,9 +36,8 @@
 #' test_geno<-GetMandS(snps_path, bigWig_path, alt_path, sample_id_rep, temp_folder)
 #'
 #' @export
-GetMandS<-function(snps_path, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder) {
+GetMandS<-function(snps, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder) {
   #Load in bigWig file to get `coverage_count` and `filtered_snps_gr`.
-  snps_gr <- readRDS(snps_path)
   cat("Loading in: ", bigWig_path, "\n")
 
   bigwig <- tryCatch(

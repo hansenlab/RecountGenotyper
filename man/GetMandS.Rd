@@ -5,7 +5,7 @@
 \title{Get M and S from raw reads as well as the predicted accuracy for that SNP}
 \usage{
 GetMandS(
-  snps_path,
+  snps,
   bigWig_path,
   coverage_cutoff = 4,
   alt_path,
@@ -14,7 +14,7 @@ GetMandS(
 )
 }
 \arguments{
-\item{snps_path}{Path to biallelic SNPs to be genotyped.}
+\item{snps}{The biallelic SNPs to be genotyped. This file should be a grange object containing seqnames,ranges,strand,ref_seq,alt_seq,allele_freq}
 
 \item{bigWig_path}{Path to the bigWig file containing the total read counts for a single sample.}
 
