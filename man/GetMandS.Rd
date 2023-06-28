@@ -18,7 +18,7 @@ GetMandS(
 
 \item{bigWig_path}{Path to the bigWig file containing the total read counts for a single sample.}
 
-\item{coverage_cutoff}{The minimum amount of read count mapped to a loci for that SNP to be included in the genotype calling.}
+\item{coverage_cutoff}{The minimum amount of read count mapped to a loci for that SNP to be included in the genotype calling. The default is 4 which was used in our model training and testing.}
 
 \item{alt_path}{Path to alternative base read counts. This is outputed from the Recount3 pipeline as a .zst file.}
 
@@ -30,4 +30,16 @@ GetMandS(
 This function will generate the reference and alternative base counts for each loci. The alternative base input is the custom file format (.zst file) from
 the Recount3. This file includes read counts for the 4 bases. Therefore, in this function, we will find the base that has read counts
 mapped to it. The default coverage cutoff is set to 4. After the ref and alt counts are obtained, the M and S values will be calculated and returened.
+}
+\examples{
+
+base_path<-system.file("extdata", package="RecountGenotyper")
+alt_path=paste0(base_path,"/test.csv.zst")
+bigWig_path=paste0(base_path,"/test.bw")
+
+sample_id_rep="test"
+temp_folder="~"
+
+test_geno<-GetMandS(snps_path, bigWig_path, alt_path, sample_id_rep, temp_folder)
+
 }

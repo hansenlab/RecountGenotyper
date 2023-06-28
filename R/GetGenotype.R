@@ -8,8 +8,17 @@
 #'
 #' @param M M values calculated from GetMandS function
 #' @param S S value calculated from GetMandS function
+#' @param prior prior was calculated based on the 3 genotype distribution in our training set and default is c(0.93752717, 0.03951271, 0.02239503). This value is constant in our model.
 #' @param model Genotyping model
 #' @return array of the predicted genotype. The SNP order is the same as output from GetMandS function.
+#'
+#' @examples
+#'
+#' S=test$S
+#' M=test$M
+#'
+#' test$predicted_genotype<-GetGenotype(model, M, S)
+#'
 #'
 #' @export
 GetGenotype<- function(model, prior=c(0.93752717, 0.03951271, 0.02239503), M, S) {

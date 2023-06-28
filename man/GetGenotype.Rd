@@ -9,6 +9,8 @@ GetGenotype(model, prior = c(0.93752717, 0.03951271, 0.02239503), M, S)
 \arguments{
 \item{model}{Genotyping model}
 
+\item{prior}{prior was calculated based on the 3 genotype distribution in our training set and default is c(0.93752717, 0.03951271, 0.02239503). This value is constant in our model.}
+
 \item{M}{M values calculated from GetMandS function}
 
 \item{S}{S value calculated from GetMandS function}
@@ -18,4 +20,13 @@ array of the predicted genotype. The SNP order is the same as output from GetMan
 }
 \description{
 This function will use the M and S values generated from the GetMandS function to predict the genotype.
+}
+\examples{
+
+S=test$S
+M=test$M
+
+test$predicted_genotype<-GetGenotype(model, M, S)
+
+
 }

@@ -7,7 +7,7 @@
 #'
 #' @param snps_path Path to biallelic SNPs to be genotyped.
 #' @param bigWig_path Path to the bigWig file containing the total read counts for a single sample.
-#' @param coverage_cutoff The minimum amount of read count mapped to a loci for that SNP to be included in the genotype calling.
+#' @param coverage_cutoff The minimum amount of read count mapped to a loci for that SNP to be included in the genotype calling. The default is 4 which was used in our model training and testing.
 #' @param alt_path Path to alternative base read counts. This is outputed from the Recount3 pipeline as a .zst file.
 #' @param sample_id_rep Single sample ID to be genotyped.
 #' @param temp_folder Path to temporary folder.
