@@ -5,7 +5,7 @@
 #' the Recount3. This file includes read counts for the 4 bases. Therefore, in this function, we will find the base that has read counts
 #' mapped to it. The default coverage cutoff is set to 4. After the ref and alt counts are obtained, the M and S values will be calculated and returened.
 #'
-#' @param snps The biallelic SNPs to be genotyped. This file should be a grange object containing seqnames,ranges,strand,ref_seq,alt_seq,allele_freq
+#' @param snps_gr The biallelic SNPs to be genotyped. This file should be a grange object containing seqnames,ranges,strand,ref_seq,alt_seq,allele_freq
 #' @param bigWig_path Path to the bigWig file containing the total read counts for a single sample.
 #' @param coverage_cutoff The minimum amount of read count mapped to a loci for that SNP to be included in the genotype calling. The default is 4 which was used in our model training and testing.
 #' @param alt_path Path to alternative base read counts. This is outputed from the Recount3 pipeline as a .zst file.
@@ -33,10 +33,20 @@
 #' sample_id_rep="test"
 #' temp_folder="~"
 #'
-#' test_geno<-GetMandS(snps_path, bigWig_path, alt_path, sample_id_rep, temp_folder)
+#' test_geno<-GetMandS(snps_gr, bigWig_path, alt_path, sample_id_rep, temp_folder)
 #'
 #' @export
-GetMandS<-function(snps, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder) {
+GetMandS<-function(snps_gr, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder="/Users/afroozrazi/Desktop/tmp") {
+
+  #load in snp granges:
+  cat("Loading in SNP granges")
+
+  s1<-read.table(paste0(system.file("extdata", package="RecountGenotyper"),"/snp1.csv.gz"), header = F)
+  s2<-read.table(paste0(system.file("extdata", package="RecountGenotyper"),"/snp2.csv.gz"), header = F)
+  s3<-read.table(paste0(system.file("extdata", package="RecountGenotyper"),"/snp3.csv.gz"), header = F)
+  s4<-read.table(paste0(system.file("extdata", package="RecountGenotyper"),"/snp4.csv.gz"), header = F)
+  snps_gr<-GenomicRanges::GRanges(seqnames=s1,IRanges::IRanges(start=s2,end=s3), allele_freq=s4)
+
   #Load in bigWig file to get `coverage_count` and `filtered_snps_gr`.
   cat("Loading in: ", bigWig_path, "\n")
 
@@ -98,12 +108,12 @@ GetMandS<-function(snps, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep,
   alt_count_gr <- alt_count_gr[queryHits(ov)]
   alt_count <- alt_count[queryHits(ov)]
   alt_key <- paste(as.character(seqnames(alt_count_gr)), start(alt_count_gr),
-                   filtered_snps_gr$ref_seq[subjectHits(ov)], alt_count$alt, sep = "_")
+                   filtered_snps_gr$ref_seq[subjectHits(ov)], sep = "_")
   #Even though `alt_key` is in the same positions as `filtered_snps_key`, many of the
   #`alt_key` entries refer to alternate alleles that we are not tracking.
   #We need to match a second time, this time using the entire key.
   filtered_snps_key <- paste(as.character(seqnames(filtered_snps_gr)), start(filtered_snps_gr),
-                             filtered_snps_gr$ref_seq, filtered_snps_gr$alt_seq, sep = "_")
+                             filtered_snps_gr$ref_seq, sep = "_")
   idx <- match(filtered_snps_key, alt_key)
   snps_key_idx <- which(!is.na(idx))
   alt_key_idx <- idx[!is.na(idx)]
@@ -156,8 +166,6 @@ GetMandS<-function(snps, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep,
 return(data.table(chr = as.character(seqnames(filtered_snps_gr)),
                   start=start(filtered_snps_gr),
                   AF= filtered_snps_gr$allele_freq,
-                  ref=filtered_snps_gr$ref_seq,
-                  alt=filtered_snps_gr$alt_seq,
                   M=M,
                   S=S,
                   coverage=ref_count+final_alt_count,
