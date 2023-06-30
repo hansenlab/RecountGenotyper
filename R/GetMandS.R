@@ -5,7 +5,7 @@
 #' the Recount3. This file includes read counts for the 4 bases. Therefore, in this function, we will find the base that has read counts
 #' mapped to it. The default coverage cutoff is set to 4. After the ref and alt counts are obtained, the M and S values will be calculated and returened.
 #'
-#' @param snps_gr The biallelic SNPs to be genotyped. This file should be a grange object containing seqnames,ranges,strand,ref_seq,alt_seq,allele_freq
+#' @param snps_gr The biallelic SNPs to be genotyped. This file should be a grange object containing seqnames,ranges,allele_freq. This file is not required.
 #' @param bigWig_path Path to the bigWig file containing the total read counts for a single sample.
 #' @param coverage_cutoff The minimum amount of read count mapped to a loci for that SNP to be included in the genotype calling. The default is 4 which was used in our model training and testing.
 #' @param alt_path Path to alternative base read counts. This is outputed from the Recount3 pipeline as a .zst file.
@@ -36,8 +36,8 @@
 #' test_geno<-GetMandS(snps_gr, bigWig_path, alt_path, sample_id_rep, temp_folder)
 #'
 #' @export
-GetMandS<-function(snps_gr, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder="/Users/afroozrazi/Desktop/tmp") {
-
+GetMandS<-function(snps_gr=NULL, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder="/Users/afroozrazi/Desktop/tmp") {
+ if (is.null(snps_gr)){
   #load in snp granges:
   cat("Loading in SNP granges")
 
@@ -46,7 +46,7 @@ GetMandS<-function(snps_gr, bigWig_path, coverage_cutoff=4,alt_path, sample_id_r
   s3<-read.table(paste0(system.file("extdata", package="RecountGenotyper"),"/snp3.csv.gz"), header = F)
   s4<-read.table(paste0(system.file("extdata", package="RecountGenotyper"),"/snp4.csv.gz"), header = F)
   snps_gr<-GenomicRanges::GRanges(seqnames=s1,IRanges::IRanges(start=s2,end=s3), allele_freq=s4)
-
+  }
   #Load in bigWig file to get `coverage_count` and `filtered_snps_gr`.
   cat("Loading in: ", bigWig_path, "\n")
 
