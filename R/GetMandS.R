@@ -31,9 +31,8 @@
 #' bigWig_path=paste0(base_path,"/test.bw")
 #'
 #' sample_id_rep="test"
-#' temp_folder="~"
 #'
-#' test_geno<-GetMandS(snps_gr, bigWig_path, alt_path, sample_id_rep, temp_folder)
+#' test_geno<-GetMandS(snps_gr, bigWig_path, alt_path, sample_id_rep, temp_folder=tempdir())
 #'
 #' @export
 GetMandS<-function(snps_gr=NULL, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder="/Users/afroozrazi/Desktop/tmp") {
