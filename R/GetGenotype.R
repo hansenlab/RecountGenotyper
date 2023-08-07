@@ -1,7 +1,8 @@
-#' Predict the sample genotype using M and S values
+#' @title A function for calculating genotypes on the basis of M an S values
 #'
 #' @name GetGenotype
 #' @description This function will use the M and S values generated from the GetMandS function to predict the genotype.
+#' Using our genotyping model, this function predicts the genotype: 1 (homozygous reference), 2 (heterozygous), 3 (homozygous alternative)
 #'
 #'
 #'
@@ -9,7 +10,7 @@
 #' @param M M values calculated from GetMandS function
 #' @param S S value calculated from GetMandS function
 #' @param prior prior was calculated based on the 3 genotype distribution in our training set and default is c(0.93752717, 0.03951271, 0.02239503). This value is constant in our model.
-#' @param model Genotyping model
+#' @param model Our genotyping model. Our model uses linear regression and GAM to model the mean and variance relationship between M and S values. Our model is a list object containing linear and GAM model for the 3 genotypes.
 #' @return array of the predicted genotype. The SNP order is the same as output from GetMandS function.
 #'
 #' @examples
@@ -21,7 +22,14 @@
 #'
 #'
 #' @export
-GetGenotype<- function(model, prior=c(0.93752717, 0.03951271, 0.02239503), M, S) {
+GetGenotype<- function(model=NULL, prior=c(0.93752717, 0.03951271, 0.02239503), M, S) {
+  if (is.null(model)){
+    cat("download genotyping model")
+    model_url<-""
+    download.file(model_url,temp_folder)
+    model<-readRDS(paste0(temp_folder, "model.rds"))
+  }
+
   lattice_max <- 8.5
   #Figure out which values of predictor S can be used for lattice lookup table.
   withinLattice_idx <- which(S <= lattice_max)

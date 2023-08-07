@@ -31,21 +31,18 @@
 #' bigWig_path=paste0(base_path,"/test.bw")
 #'
 #' sample_id_rep="test"
-#' temp_folder="~"
+#' temp_folder= tempdir()
 #'
 #' test_geno<-GetMandS(snps_gr, bigWig_path, alt_path, sample_id_rep, temp_folder)
 #'
 #' @export
-GetMandS<-function(snps_gr=NULL, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder="/Users/afroozrazi/Desktop/tmp") {
+GetMandS<-function(snps_gr=NULL, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder= tempdir()) {
  if (is.null(snps_gr)){
   #load in snp granges:
   cat("Loading in SNP granges")
-
-  s1<-read.table(paste0(system.file("extdata", package="RecountGenotyper"),"/snp1.csv.gz"), header = F)
-  s2<-read.table(paste0(system.file("extdata", package="RecountGenotyper"),"/snp2.csv.gz"), header = F)
-  s3<-read.table(paste0(system.file("extdata", package="RecountGenotyper"),"/snp3.csv.gz"), header = F)
-  s4<-read.table(paste0(system.file("extdata", package="RecountGenotyper"),"/snp4.csv.gz"), header = F)
-  snps_gr<-GenomicRanges::GRanges(seqnames=s1,IRanges::IRanges(start=s2,end=s3), allele_freq=s4)
+   snps<-"https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/arazi2_jh_edu/EXPmN8OUDDVPg9wji_ETIzUBsygG9NrC41zvBeFrZIKtNw?e=qqb2TZ"
+  download.file(snps, "~\biallelic_snp_gr.rds", method="curl")
+  snps_gr<-readRDS("~\biallelic_snp_gr.rds")
   }
   #Load in bigWig file to get `coverage_count` and `filtered_snps_gr`.
   cat("Loading in: ", bigWig_path, "\n")
