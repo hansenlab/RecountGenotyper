@@ -24,10 +24,12 @@
 #' @export
 GetGenotype<- function(model=NULL, prior=c(0.93752717, 0.03951271, 0.02239503), M, S) {
   if (is.null(model)){
+
     cat("download genotyping model")
     model_url<-""
-    download.file(model_url,temp_folder)
-    model<-readRDS(paste0(temp_folder, "model.rds"))
+    download.file(model_url,paste0(tempdir(),"/model.rds"), method="curl")
+    model<-readRDS(paste0(tempdir(), "/model.rds"))
+
   }
 
   lattice_max <- 8.5

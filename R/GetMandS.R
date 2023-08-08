@@ -39,10 +39,10 @@
 GetMandS<-function(snps_gr=NULL, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder= tempdir()) {
  if (is.null(snps_gr)){
   #load in snp granges:
-  cat("Loading in SNP granges")
-   snps<-"https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/arazi2_jh_edu/EXPmN8OUDDVPg9wji_ETIzUBsygG9NrC41zvBeFrZIKtNw?e=qqb2TZ"
-  download.file(snps, "~\biallelic_snp_gr.rds", method="curl")
-  snps_gr<-readRDS("~\biallelic_snp_gr.rds")
+   cat("Loading in SNP granges")
+   snps<-"https://livejohnshopkins-my.sharepoint.com/:u:/r/personal/arazi2_jh_edu/Documents/RecountGenotyper/biallelic_SNP_gr.rds?csf=1&web=1&e=glKCqA"
+   download.file(snps, destfile=paste0(tempdir(),"/biallelic_snp_gr.rds"), method="curl")
+   snps_gr<-readRDS(paste0(tempdir(),"/biallelic_snp_gr.rds"))
   }
   #Load in bigWig file to get `coverage_count` and `filtered_snps_gr`.
   cat("Loading in: ", bigWig_path, "\n")
