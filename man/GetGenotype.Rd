@@ -2,12 +2,12 @@
 % Please edit documentation in R/GetGenotype.R
 \name{GetGenotype}
 \alias{GetGenotype}
-\title{Predict the sample genotype using M and S values}
+\title{A function for calculating genotypes on the basis of M an S values}
 \usage{
-GetGenotype(model, prior = c(0.93752717, 0.03951271, 0.02239503), M, S)
+GetGenotype(model = NULL, prior = c(0.93752717, 0.03951271, 0.02239503), M, S)
 }
 \arguments{
-\item{model}{Genotyping model}
+\item{model}{Our genotyping model. Our model uses linear regression and GAM to model the mean and variance relationship between M and S values. Our model is a list object containing linear and GAM model for the 3 genotypes.}
 
 \item{prior}{prior was calculated based on the 3 genotype distribution in our training set and default is c(0.93752717, 0.03951271, 0.02239503). This value is constant in our model.}
 
@@ -20,6 +20,7 @@ array of the predicted genotype. The SNP order is the same as output from GetMan
 }
 \description{
 This function will use the M and S values generated from the GetMandS function to predict the genotype.
+Using our genotyping model, this function predicts the genotype: 1 (homozygous reference), 2 (heterozygous), 3 (homozygous alternative)
 }
 \examples{
 

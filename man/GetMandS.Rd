@@ -5,16 +5,16 @@
 \title{Get M and S from raw reads as well as the predicted accuracy for that SNP}
 \usage{
 GetMandS(
-  snps_gr,
+  snps_gr = NULL,
   bigWig_path,
   coverage_cutoff = 4,
   alt_path,
   sample_id_rep,
-  temp_folder = "/Users/afroozrazi/Desktop/tmp"
+  temp_folder = tempdir()
 )
 }
 \arguments{
-\item{snps_gr}{The biallelic SNPs to be genotyped. This file should be a grange object containing seqnames,ranges,strand,ref_seq,alt_seq,allele_freq}
+\item{snps_gr}{The biallelic SNPs to be genotyped. This file should be a grange object containing seqnames,ranges,allele_freq. This file is not required.}
 
 \item{bigWig_path}{Path to the bigWig file containing the total read counts for a single sample.}
 
@@ -38,8 +38,8 @@ alt_path=paste0(base_path,"/test.csv.zst")
 bigWig_path=paste0(base_path,"/test.bw")
 
 sample_id_rep="test"
-temp_folder="~"
+temp_folder= tempdir()
 
-test_geno<-GetMandS(snps_gr, bigWig_path, alt_path, sample_id_rep, temp_folder)
+test_geno<-GetMandS(snps_gr, bigWig_path, alt_path, sample_id_rep, temp_folder=tempdir())
 
 }

@@ -33,7 +33,7 @@
 #' sample_id_rep="test"
 #' temp_folder= tempdir()
 #'
-#' test_geno<-GetMandS(snps_gr, bigWig_path, alt_path, sample_id_rep, temp_folder=tempdir())
+#'  test_geno<-GetMandS(snps_gr=NULL, bigWig_path, coverage_cutoff=4, alt_path, sample_id_rep, temp_folder= tempdir())
 #'
 #' @export
 GetMandS<-function(snps_gr=NULL, bigWig_path, coverage_cutoff=4,alt_path, sample_id_rep, temp_folder= tempdir()) {
@@ -81,7 +81,21 @@ GetMandS<-function(snps_gr=NULL, bigWig_path, coverage_cutoff=4,alt_path, sample
   #3. Collapse to `alt_count`, and create GRanges object for intersection.
   cat("Loading in: ", alt_path, "\n")
   temp_altFile <- paste0(temp_folder, sample_id_rep, ".alt.temp.csv")
-  system(paste0("zstdcat ", alt_path, " > ", temp_altFile))
+  tryCatch({
+    system(paste0("zstdcat ", alt_path, " > ", temp_altFile))
+    },
+           error = function(e){
+             message("Error reading alt file:\n", e)
+             message("'zstdcat' software is not installed")
+           },
+           warning = function(w){
+             message("Warning reading alt file:\n", w)
+             message("'zstdcat' software is not installed")
+           },
+           finally = {
+           })
+
+
   alt <- data.table::fread(temp_altFile, select = c(1, 2, 4))
   system(paste0("rm ", temp_altFile))
   if(nrow(alt) == 0) {
