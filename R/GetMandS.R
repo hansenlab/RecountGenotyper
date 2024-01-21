@@ -119,12 +119,12 @@ GetMandS<-function(snps_gr=NULL, bigWig_path, coverage_cutoff=4,alt_path, sample
   alt_count_gr <- alt_count_gr[queryHits(ov)]
   alt_count <- alt_count[queryHits(ov)]
   alt_key <- paste(as.character(seqnames(alt_count_gr)), start(alt_count_gr),
-                   filtered_snps_gr$ref_seq[subjectHits(ov)], sep = "_")
+                   filtered_snps_gr$ref_seq[subjectHits(ov)], alt_count$alt,  sep = "_")
   #Even though `alt_key` is in the same positions as `filtered_snps_key`, many of the
   #`alt_key` entries refer to alternate alleles that we are not tracking.
   #We need to match a second time, this time using the entire key.
   filtered_snps_key <- paste(as.character(seqnames(filtered_snps_gr)), start(filtered_snps_gr),
-                             filtered_snps_gr$ref_seq, sep = "_")
+                             filtered_snps_gr$ref_seq, filtered_snps_gr$alt_seq, sep = "_")
   idx <- match(filtered_snps_key, alt_key)
   snps_key_idx <- which(!is.na(idx))
   alt_key_idx <- idx[!is.na(idx)]
