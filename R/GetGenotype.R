@@ -26,7 +26,7 @@ GetGenotype<- function(model=NULL, prior=c(0.93752717, 0.03951271, 0.02239503), 
   if (is.null(model)){
 
     cat("download genotyping model")
-    model_url<-"https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/arazi2_jh_edu/EeZYp2N1iQxIoIVSkPGxFt4BwD27VxBtN_-zes-gs1_GdA?e=jaU3Fe"
+    model_url<- #This file is protected data
     download.file(model_url,paste0(tempdir(),"/model.rds"), method="curl")
     model<-readRDS(paste0(tempdir(), "/model.rds"))
 
