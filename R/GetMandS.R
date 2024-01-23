@@ -40,7 +40,7 @@ GetMandS<-function(snps_gr=NULL, bigWig_path, coverage_cutoff=4,alt_path, sample
  if (is.null(snps_gr)){
   #load in snp granges:
    cat("Loading in SNP granges")
-   snps<-"https://livejohnshopkins-my.sharepoint.com/:u:/r/personal/arazi2_jh_edu/Documents/RecountGenotyper/biallelic_SNP_gr.rds?csf=1&web=1&e=glKCqA"
+   snps<- #This data is protected
    download.file(snps, destfile=paste0(tempdir(),"/biallelic_snp_gr.rds"), method="curl")
    snps_gr<-readRDS(paste0(tempdir(),"/biallelic_snp_gr.rds"))
   }
